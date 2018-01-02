@@ -78,3 +78,191 @@ echo PPHP, PHP_EOL;
 * \_\_METHOD__：メソッド名。宣言時のメソッド名を大文字小文字で区別して返す
 * \_\_NAMESPACE__：現在の名前空間の名前
 
+
+### 2.4 エラー
+エラーのレベルと設定
+
+### 3.1 型
+整数と浮動小数点の違い。倍精度小数点とは
+
+#### 3.1.5 論理型
+PHPがfalseと判断するもの？
+
+* false（論理型）
+* 0（整数型）
+* 0.0（浮動小数点型）
+* からの文字列（""）、文字列のゼロ（"0"）
+* null（値がセットされていない変数を含む）
+* 空のタグから作成されたSimpleXMLオブジェクト
+
+isset(), empty()の使い分け
+
+タイプヒンティングの使いどころ
+
+基本的には厳密な比較を行った方がよい
+
+#### 3.3.6 配列の演算
+
+```php
+$a = array('a' => 1, 'b' => 3, 'c' => 5);
+$b = array('a' => 1, 'c' => 5, 'b' => 3);
+$c = array('a' => 1, 'b' => 2);
+
+var_dump($a + $c); // array(3) { ["a"]=> int(1) ["b"]=> int(3) ["c"]=> int(5) }
+var_dump(array_merge($a, $c)); // array(3) { ["a"]=> int(1) ["b"]=> int(2) ["c"]=> int(5) }
+```
+
+\+ は重複キーの値を書き換えないが、array_mergeは書き換える。
+
+#### 4.4.2 関数の定義
+
+* タイプヒンティング
+```php
+function array_output(array $var) {
+    if (is_array($var)) {
+        foreach ($var as $v) {
+            echo $v, PHP_EOL;
+        }
+    }
+}
+
+$array = array(1,2,3);
+array_output($array); // 1 2 3 
+array_output(1); // Uncaught TypeError: Argument 1 passed to array_output() must be of the type array, integer given, called in hogehoge
+```
+
+* コールバック関数
+
+## 5章
+
+#### 5.1.2 クラスの定義
+
+```php
+// クラスの定義
+class Employee
+{
+    // メソッドの定義
+    public function work()
+    {
+        echo '書類を整理しています';
+    }
+}
+  
+// $employeeにEmployeeクラスのオブジェクトへの参照を入れる
+$employee = new Employee(); // インスタンス化
+// メソッドの呼び出しにはアロー演算子(->)を用いる
+$employee->work(); // 書類を整理しています
+```
+
+＜疑問＞
+参照渡しとは？
+->5.6を参照
+
+### 5.6 参照
+
+#### 5.6.1 参照とは
+
+PHPにおける参照（リファレンス）とは、
+変数のもつある値の格納領域を指し示す単語。
+また別の名前を持つ変数のこと。
+
+参照と代入の違いは以下
+```php
+$a = 10;
+$b = & $a; // &は参照代入演算子
+$c = $a; // $cに$aの"値のみ"コピーされる
+
+echo '$b: ', $b, PHP_EOL; // $b: 10
+echo '$c: ', $c, PHP_EOL; // $c: 10
+$a = 20; // $aに違う値を代入すると
+echo '$b: ', $b, PHP_EOL; // $b: 20 // $bはその影響を受ける
+echo '$c: ', $c, PHP_EOL; // $c: 10 // $cはそのまま
+```
+
+* 参照変数への再代入
+
+
+
+```php
+$a = 10;
+$c = 20;
+$ref = & $a;
+$ref = & $c; // ここで参照先が変更される
+$ref = 30;
+echo '$a: ', $a, PHP_EOL; // $a: 10
+echo '$c: ', $c, PHP_EOL; // $c: 30
+```
+
+
+#### 5.6.4 リファレンスカウントとオブジェクトの寿命
+＜ガベージコレクションとは？＞
+https://geechs-magazine.com/tag/tech/20160229
+
+オブジェクトの寿命は**そのオブジェクトを参照するものが１つもなくなるときまで**
+
+```php
+class RefClass
+{
+    public function __construct()
+    {
+        echo __CLASS__, ' が生成されました', PHP_EOL;
+    }
+
+    public function __destruct()
+    {
+        echo __CLASS__, ' が破棄されました', PHP_EOL;
+    }
+}
+
+echo '** プログラム開始', PHP_EOL;
+echo '** new RefClass()', PHP_EOL;
+$a = new RefClass();               // リファレンスカウント = 1
+echo '** $b = $a', PHP_EOL;
+$b = $a;                           // リファレンスカウント = 2
+echo '** unset $a', PHP_EOL;
+unset($a);                         // リファレンスカウント = 1
+echo '** unset $b', PHP_EOL;
+unset($b);                         // リファレンスカウント = 0, このタイミングでオブジェクトが破棄される。
+echo '** プログラム終了', PHP_EOL;
+  
+/* 処理結果
+ * ** プログラム開始
+ * ** new RefClass()
+ * RefClass が生成されました
+ * ** $b = $a
+ * ** unset $a
+ * ** unset $b
+ * RefClass が破棄されました
+ * ** プログラム終了
+ */
+```
+ちなみに途中で$cへの参照代入を挟むと、プログラム終了までオブジェクトが生き残る。
+
+```php
+echo '** プログラム開始<br>', PHP_EOL;
+echo '** new RefClass()<br>', PHP_EOL;
+$a = new RefClass();                   // リファレンスカウント = 1
+echo '** $b = $a<br>', PHP_EOL;
+$b = $a;                               // リファレンスカウント = 2
+echo '** $c = & $a<br>', PHP_EOL;
+$c =& $a;                              // ここに参照代入を追加 リファレンスカウント = 3
+echo '** unset $a<br>', PHP_EOL;
+unset($a);                             // リファレンスカウント = 2
+echo '** unset $b<br>', PHP_EOL;
+unset($b);                             // リファレンスカウント = 1
+echo '** プログラム終了<br>', PHP_EOL;
+                                       // リファレンスカウント = 0, このタイミングでオブジェクトが破棄される。
+  
+/* 処理結果
+ * ** プログラム開始
+ * ** new RefClass()
+ * RefClass が生成されました
+ * ** $b = $a
+ * ** $c = & $a
+ * ** unset $a
+ * ** unset $b
+ * ** プログラム終了
+ * RefClass が破棄されました
+ */
+```
+
