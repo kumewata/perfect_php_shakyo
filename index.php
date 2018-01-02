@@ -6,28 +6,18 @@
  * Time: 19:51
  */
 
-class RefClass
+class Employee
 {
-    public function __construct()
-    {
-        echo __CLASS__, ' が生成されました<br>', PHP_EOL;
-    }
+    public $name;
+    public $state = '働いている';
 
-    public function __destruct()
+    public function work()
     {
-        echo __CLASS__, ' が破棄されました<br>', PHP_EOL;
+        echo '書類を整理しています', PHP_EOL;
     }
 }
 
-echo '** プログラム開始<br>', PHP_EOL;
-echo '** new RefClass()<br>', PHP_EOL;
-$a = new RefClass();
-echo '** $b = $a<br>', PHP_EOL;
-$b = $a;
-//echo '** $c = & $a<br>', PHP_EOL;
-//$c =& $a;
-echo '** unset $a<br>', PHP_EOL;
-unset($a);
-echo '** unset $b<br>', PHP_EOL;
-unset($b);
-echo '** プログラム終了<br>', PHP_EOL;
+$yamada = new Employee();
+$yamada->name = '山田';
+echo $yamada->state, $yamada->name, 'さん： ';
+$yamada->work();
