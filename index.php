@@ -9,7 +9,17 @@
 class Employee
 {
     public $name;
-    public $state = '働いている';
+    private $state = '働いている'; // privateなのでクラスの内側からしかアクセスできない
+
+    public function getState() // privateなプロパティへアクセスするメソッド
+    {
+        return $this->state;
+    }
+
+    public function setState($state) //private なプロパティを変更するメソッド
+    {
+        return $this->state = $state;
+    }
 
     public function work()
     {
@@ -19,5 +29,5 @@ class Employee
 
 $yamada = new Employee();
 $yamada->name = '山田';
-echo $yamada->state, $yamada->name, 'さん： ';
-$yamada->work();
+$yamada->setState('休んでいる');
+echo $yamada->name, 'さんは', $yamada->getState(), PHP_EOL;
