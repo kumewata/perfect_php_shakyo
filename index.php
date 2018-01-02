@@ -29,5 +29,5 @@ class Employee
 
 $yamada = new Employee();
 $yamada->name = '山田';
-$yamada->setState('休んでいる');
-echo $yamada->name, 'さんは', $yamada->getState(), PHP_EOL;
+$yamada->job = 'プログラマ';
+echo $yamada->name, 'さんは', $yamada->job, 'です', PHP_EOL;
