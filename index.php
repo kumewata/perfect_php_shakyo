@@ -8,12 +8,19 @@
 
 class Employee
 {
-    const PARTTIME = 0x01; // アルバイト
-    const REGULAR  = 0x02; // 正社員
-    const CONTRACT = 0x03; // 契約社員
+    private static $company = '技評技術社';
+
+    public static function getCompany()
+    {
+        return self::$company;
+    }
+
+    public static function setCompany($value)
+    {
+        self::$company = $value;
+    }
 }
 
-echo '雇用形態No';
-echo 'アルバイト：', Employee::PARTTIME, PHP_EOL;
-echo '正社員：', Employee::REGULAR, PHP_EOL;
-echo '契約社員：', Employee::CONTRACT, PHP_EOL;
+echo Employee::getCompany(), PHP_EOL;
+Employee::setCompany('グーグル');
+echo Employee::getCompany(), PHP_EOL;
