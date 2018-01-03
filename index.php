@@ -8,19 +8,40 @@
 
 class Employee
 {
-    private static $company = '技評技術社';
+    const PARTTIME = 0x01; // アルバイト
+    const REGULAR  = 0x02; // 正社員
+    const CONTRACT = 0x03; // 契約社員
 
-    public static function getCompany()
+    private $name;         // 名前を保存するプロパティ
+    private $type;         // 雇用形態をほぞんするプロパティ
+
+    public function __construct($name, $type)
     {
-        return self::$company;
+        $this->name = $name;
+        $this->type = $type;
     }
 
-    public static function setCompany($value)
+    public function setName($value)
     {
-        self::$company = $value;
+        $this->name = $value;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setType($value)
+    {
+        $this->type = $value;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 }
 
-echo Employee::getCompany(), PHP_EOL;
-Employee::setCompany('グーグル');
-echo Employee::getCompany(), PHP_EOL;
+$yamada = new Employee('山田', Employee::REGULAR);
+
+echo $yamada->getName(), 'さんの雇用形態Noは', $yamada->getType(), 'です。';
