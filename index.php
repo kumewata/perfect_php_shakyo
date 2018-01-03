@@ -8,9 +8,12 @@
 
 class Employee
 {
-    public $name;
-    public static $company = '技評技術社';
+    const PARTTIME = 0x01; // アルバイト
+    const REGULAR  = 0x02; // 正社員
+    const CONTRACT = 0x03; // 契約社員
 }
 
-// 静的なプロパティはインスタンス化されていなくても使うことができる。
-echo '従業員はみんな', Employee::$company, 'に努めています', PHP_EOL;
+echo '雇用形態No';
+echo 'アルバイト：', Employee::PARTTIME, PHP_EOL;
+echo '正社員：', Employee::REGULAR, PHP_EOL;
+echo '契約社員：', Employee::CONTRACT, PHP_EOL;
