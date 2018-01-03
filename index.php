@@ -6,13 +6,25 @@
  * Time: 19:51
  */
 
-$var = 1;
-$var_obj = (object)$var;
-echo $var_obj->scalar, PHP_EOL; // 1
+interface Reader
+{
+    public function read();
+}
 
-$array = array(
-    'foo' => 2,
-    'bar' => 3,
-);
-$array_obj = (object)$array;
-echo $array_obj->foo, PHP_EOL; // 2
+interface Writer
+{
+    public function write($value);
+}
+
+class Configure implements Reader, Writer
+{
+    public function write($value)
+    {
+        // TODO: Implement write() method.
+    }
+
+    public function read()
+    {
+        // TODO: Implement read() method.
+    }
+}
