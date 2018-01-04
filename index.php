@@ -6,25 +6,14 @@
  * Time: 19:51
  */
 
-interface Reader
+class Employee
 {
-    public function read();
-}
-
-interface Writer
-{
-    public function write($value);
-}
-
-class Configure implements Reader, Writer
-{
-    public function write($value)
+    // マジックメソッドは必ずpublicで定義する
+    public function __toString()
     {
-        // TODO: Implement write() method.
-    }
-
-    public function read()
-    {
-        // TODO: Implement read() method.
+        return 'This class is: ' . __CLASS__;
     }
 }
+
+$yamada = new Employee();
+echo $yamada;
