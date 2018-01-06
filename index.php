@@ -26,21 +26,24 @@ class SomeClass
     public function __set($name, $value)
     {
         echo "set: $name setted to $value", PHP_EOL;
-        $this->values[$name] = $value;
+        $this->values[$name] = $value; // $values arrayに要素が入れられる
     }
 
+    // isset()あるいはempty()をアクセス不能プロパティに対して実行したときに実行される
     public function __isset($name)
     {
         echo "isset: $name", PHP_EOL;
         return isset($this->values[$name]);
     }
 
+    // unset()をアクセス不能プロパティに対して実行したときに実行される。
     public function __unset($name)
     {
         echo "unset: $name", PHP_EOL;
         unset($this->values[$name]);
     }
 
+    // アクセス不能なメソッドを呼び出したときに実行
     public function __call($name, $args)
     {
         echo "call: $name", PHP_EOL;
@@ -54,6 +57,7 @@ class SomeClass
         return call_user_func_array(array($this, $method_name), $args);
     }
 
+    // アクセス不能なメソッドをstaticに呼び出す
     public static function __callStatic($name, $args)
     {
         echo "callStatic: $name", PHP_EOL;
@@ -65,6 +69,7 @@ class SomeClass
         return call_user_func_array(array('self', $method_name), $args);
     }
 
+
     private function _bar($value)
     {
         echo "bar called with arg '$value'", PHP_EOL;
@@ -74,10 +79,19 @@ class SomeClass
     {
         echo "staticBar called with arg '$value'", PHP_EOL;
     }
+
+    /**
+     * @return array
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
 }
 
 $obj = new SomeClass();
 $obj->foo = 10;
+//var_dump($obj->getValues());
 
 var_dump($obj->foo);
 var_dump(isset($obj->foo));
