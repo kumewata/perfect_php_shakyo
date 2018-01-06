@@ -6,27 +6,12 @@
  * Time: 19:51
  */
 
-class Foo
+function __autoload($name)
 {
-    public function helloGateway()
-    {
-//        self::hello();
-        static::hello(); // 遅延静的束縛
-    }
-
-    public static function hello()
-    {
-        echo __CLASS__, ' hello!', PHP_EOL;
+    $filename = $name . '.php';
+    if (is_readable($filename)) {
+        require $filename;
     }
 }
 
-class Bar extends Foo
-{
-    public static function hello()
-    {
-        echo __CLASS__, ' hello!', PHP_EOL;
-    }
-}
-
-$bar = new Bar();
-$bar->helloGateway(); // Foo hello! ->Bar hello!
+$obj = new Foo();
