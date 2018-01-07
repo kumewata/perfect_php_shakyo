@@ -191,6 +191,23 @@ $employee->work(); // 書類を整理しています
 
 親クラスから継承された子クラスのメソッド、定数、プロパティの解決を行える（呼び出せる？）ようにする。
 
+#### 5.5.2 定義済みの例外
+
+* Exception：すべての例外の基底クラス。すべての例外クラスはこのクラスを継承していなければならない。
+* ErrorException：PHP標準のエラーを例外に変化する際に用いられる例外クラス
+* LogicException：SPL（Standard PHP Library）例外の基底クラス
+* BadFunctionCallException：コールバックに参照できない関数が指定された場合や、関数の引数を指定しなかった場合に投げられる例外
+* BadMethodException：コールバックに参照できないメソッドが指定された場合や、メソッドの引数を指定しなかった場合に投げられる例外
+* DomainException：データドメインの定義に値が従っていない場合の例外
+* InvalidArgumentException：
+* LengthException：長さが無効な場合に投げられる例外
+* OutOfBoundsException：配列などのキーの指定が無効な場合に投げられる例外
+* OutOfRangeException：配列の大きさを超えるキーが指定されるなど、値が範囲に収まっていない場合の例外。
+* OverflowException：オーバーフローが発生する場合に投げられる例外
+* RangeException：無効な範囲が指定された場合の例外
+* RuntimeException：実行時の例外
+* UnderflowException：アンダーフローが発生する場合の例外
+* UnexpectedValueException：いくつかの値に期待されない値が含まれる場合の例外
 
 ### 5.6 参照
 
