@@ -12,6 +12,17 @@ class DbManager
     protected $repository_connection_map = array();
     protected $repositories = array();
 
+    public function __destruct()
+    {
+        foreach ($this->repositories as $repository) {
+            unset($repository);
+        }
+
+        foreach ($this->connections as $con) {
+            unset($con);
+        }
+    }
+
     public function connect($name, $params)
     {
         $params = array_merge(array(
